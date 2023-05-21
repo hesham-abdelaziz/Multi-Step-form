@@ -132,6 +132,7 @@ button {
           > span {
             z-index: 1;
           }
+
           &::after {
             content: "";
             position: absolute;
@@ -139,18 +140,26 @@ button {
             width: 100%;
             border-radius: 50%;
             background-color: var(--bg-active);
+            top: -100%;
             bottom: -100%;
             transition: 0.5s cubic-bezier(0.47, 0.13, 0.15, 0.89);
           }
-          &.active {
+
+          &.active-bottom-to-top,
+          &.active-top-to-bottom {
             border: none;
             > span {
               color: #222;
-              display: block;
             }
-            &::after {
-              bottom: 0;
-            }
+          }
+          &.active-bottom-to-top::after {
+            top: 0;
+            bottom: unset;
+          }
+
+          &.active-top-to-bottom::after {
+            bottom: 0;
+            top: unset;
           }
         }
         > div.step-info {

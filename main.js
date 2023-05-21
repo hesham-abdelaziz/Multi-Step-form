@@ -85,7 +85,7 @@ function isFieldValid(fields) {
     } else isValid = true;
   });
   // console.log('is valid',isValid);
-  // return;
+  return true;
   return isValid;
 }
 
@@ -93,15 +93,24 @@ function isFieldValid(fields) {
  * Method used to handle active step
  * @param {*} index step index in the array
  */
-function stepHandler(index) {
 
-  // Add active class based on index bigger than or smaller than active one
+let prevIndex = -1; // to store previous index
+
+function stepHandler(index) {
   stepsArray.forEach((step, i) => {
-    step.classList.remove("active");
+    step.classList.remove("active-bottom-to-top", "active-top-to-bottom");
+
     if (index === i) {
-      step.classList.add("active");
+      if (i > prevIndex) {
+        step.classList.add("active-bottom-to-top");
+      } else if (i < prevIndex) {
+        step.classList.add("active-top-to-bottom");
+      }
     }
   });
+
+  // store current index as previous
+  prevIndex = index;
 }
 
 function handleStepBack(previousStep) {
