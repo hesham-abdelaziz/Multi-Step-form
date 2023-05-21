@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Ubuntu:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Sidebar start -->
+      <div class="sidebar">
+        <div class="steps">
+          <div class="step-circle"></div>
+          <div class="step">
+            <div class="step-order active">
+              <span>1</span>
+            </div>
+            <div class="step-info">
+              <span class="step-number">step 1</span>
+              <span class="step-desc">your info</span>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-order">
+              <span>2</span>
+            </div>
+            <div class="step-info">
+              <span class="step-number">step 2</span>
+              <span class="step-desc">select plan</span>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-order">
+              <span>3</span>
+            </div>
+            <div class="step-info">
+              <span class="step-number">step 3</span>
+              <span class="step-desc">add-ons</span>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-order">
+              <span>4</span>
+            </div>
+            <div class="step-info">
+              <span class="step-number">step 4</span>
+              <span class="step-desc">summary</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Sidebar end -->
+
+      <!-- Step one start -->
+
+      <div class="step-one-container">
+        <form name="step-one-form" class="step-one-form">
+          <h4 class="step-header">Personal info</h4>
+          <span class="step-desc font-gray"
+            >Please provide your name, email address, and phone number.</span
+          >
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input
+              class="name-input"
+              type="text"
+              name="Name"
+              id="name"
+              placeholder="e.g. Stephen King"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input
+              class="email-input"
+              type="email"
+              name="Email Address"
+              id="email"
+              placeholder="e.g. stephenking@lorem.com"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input
+              class="phone-input"
+              type="tel"
+              name="Phone Number"
+              id="phone"
+              placeholder="e.g. +1 234 567 890"
+              required
+            />
+          </div>
+
+          <button
+            type="button"
+            class="next-button step-one-btn"
+            onclick="handleStepForward('two')"
+          >
+            Next Step
+          </button>
+        </form>
+      </div>
+
+      <!-- Step one end -->
+
+      <!-- Step two start -->
+
+      <div class="step-two-container">
+        <div name="step-two">
+          <h4 class="step-header">Seletct your plan</h4>
+          <span class="step-desc font-gray"
+            >You have the option of monthly or yearly billing.</span
+          >
+
+          <div class="cards">
+            <div
+              class="card active"
+              data-plan-name="Arcade"
+              data-plan-price="9"
+            >
+              <img src="assets/images/icon-arcade.svg" alt="arcade" />
+              <div class="desc">
+                <p class="name">Arcade</p>
+                <span class="price arcade-price font-gray" data-price="$9/mo"
+                  >$9/mo</span
+                >
+              </div>
+            </div>
+            <div class="card" data-plan-name="Advanced" data-plan-price="12">
+              <img src="assets/images/icon-advanced.svg" alt="advanced" />
+              <div class="desc">
+                <p class="name">Advanced</p>
+                <span class="price advanced-price font-gray" data-price="$12/mo"
+                  >$12/mo</span
+                >
+              </div>
+            </div>
+            <div class="card" data-plan-name="Pro" data-plan-price="15">
+              <img src="assets/images/icon-pro.svg" alt="pro" />
+              <div class="desc">
+                <p class="name">Pro</p>
+                <span class="price pro-price font-gray" data-price="$15/mo"
+                  >$15/mo</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="plan-toggle">
+            <p class="plan monthly selected">Monthly</p>
+            <span class="toggle"></span>
+            <p class="plan yearly">Yearly</p>
+          </div>
+        </div>
+
+        <div class="btn-container">
+          <span class="font-gray prev-button" onclick="handleStepBack('one')"
+            >Go Back</span
+          >
+          <button
+            type="button"
+            class="next-button step-two-btn"
+            onclick="handleStepForward('three')"
+          >
+            Next Step
+          </button>
+        </div>
+      </div>
+      <!-- Step two end -->
+      <!-- Step three start -->
+
+      <div class="step-three-container">
+        <h4 class="step-header">Pick add-ons</h4>
+        <span class="step-desc font-gray"
+          >Add-ons help enhance your gaming experience.</span
+        >
+
+        <div class="add-ons">
+          <div
+            class="add-on"
+            data-addon-name="Online service"
+            data-addon-price="1"
+          >
+            <div class="left-col">
+              <span class="custom-checkbox"></span>
+              <div class="add-on-desc">
+                <p>Online service</p>
+                <span class="font-gray">Access to multiplayer games</span>
+              </div>
+            </div>
+            <p class="add-on-price">+1$/mo</p>
+          </div>
+          <div
+            class="add-on"
+            data-addon-name="Larger storage"
+            data-addon-price="2"
+          >
+            <div class="left-col">
+              <span class="custom-checkbox"></span>
+              <div class="add-on-desc">
+                <p>Larger storage</p>
+                <span class="font-gray">Extra 1TB of cloud save</span>
+              </div>
+            </div>
+            <p class="add-on-price">+2$/mo</p>
+          </div>
+          <div
+            class="add-on"
+            data-addon-name="Customizable profile"
+            data-addon-price="2"
+          >
+            <div class="left-col">
+              <span class="custom-checkbox"></span>
+              <div class="add-on-desc">
+                <p>Customizable profile</p>
+                <span class="font-gray">Custom theme on your profile</span>
+              </div>
+            </div>
+            <p class="add-on-price">+2$/mo</p>
+          </div>
+        </div>
+
+        <div class="btn-container">
+          <span class="font-gray prev-button" onclick="handleStepBack('two')"
+            >Go Back</span
+          >
+          <button
+            type="button"
+            class="next-button step-two-btn"
+            onclick="handleStepForward('four')"
+          >
+            Next Step
+          </button>
+        </div>
+      </div>
+      <!-- Step three end -->
+
+      <!-- Step four start -->
+      <div class="step-four-container">
+        <h4 class="step-header">Finishing up</h4>
+        <span class="step-desc font-gray"
+          >Double-check everything looks OK before confirming.</span
+        >
+        <div class="data-container">
+          <div class="plan-data">
+            <div class="selected-plan-data">
+              <span class="plan-name"></span>
+              <br />
+              <span class="change-btn">Change</span>
+            </div>
+            <span class="plan-price"></span>
+          </div>
+          <hr />
+          <div class="services"></div>
+        </div>
+        <div class="total"></div>
+        <div class="btn-container">
+          <span class="font-gray prev-button" onclick="handleStepBack('three')"
+            >Go Back</span
+          >
+          <button
+            type="button"
+            class="next-button"
+            onclick="handleStepForward('confirm')"
+          >
+            Confirm
+          </button>
+        </div>
+      </div>
+
+      <!-- Step four end -->
+
+      <!-- Finish start -->
+
+      <div class="finish-step">
+        <img src="/assets/images/icon-thank-you.svg" alt="thankyou" />
+        <h4>Thank You!</h4>
+        <span class="font-gray"
+          >Thanks for confirming your subscription! We hope you have fun using
+          our platform. If you ever need support, please feel free to email us
+          at support@loremgaming.com</span
+        >
+      </div>
+
+      <!-- Finish end -->
+    </div>
+  </body>
+</html>
+
+<script src="main.js"></script>
