@@ -1,5 +1,5 @@
 // Global variables
-
+let validField;
 let selectedData = {
   plan: {
     name: "Arcade",
@@ -71,23 +71,6 @@ changePlanBtn.addEventListener("click", () => {
 });
 
 // Event listener
-/**
- * Method used to check for field validity
- * @param {*} field form field which needs validity check
- * @returns boolean
- */
-function isFieldValid(fields) {
-  let isValid;
-  fields.some((field) => {
-    console.log(field.value);
-    if (field.value === "") {
-      isValid = false;
-    } else isValid = true;
-  });
-  // console.log('is valid',isValid);
-  return true;
-  return isValid;
-}
 
 /**
  * Method used to handle active step
@@ -164,11 +147,7 @@ function handleStepForward(nextStep) {
  * Method used to handle step one form validity and go to next step
  */
 function validateForm() {
-  const name = document.forms["step-one-form"]["name"];
-  const email = document.forms["step-one-form"]["email"];
-  const phone = document.forms["step-one-form"]["phone"];
-  const fielsArray = [name, email, phone];
-  if (!isFieldValid(fielsArray)) {
+  if (!validField) {
     inputListener(true);
     return;
   } else {
@@ -242,7 +221,6 @@ function createDataView() {
   servicesSpan.innerHTML = "";
   planNameSpan.innerHTML = `${selectedData.plan.name} (${selectedData.plan.planDuration})`;
 
-  // handleSelectedPlanPrice();
   planPriceSpan.innerHTML = `$${
     selectedData.plan.planDuration === "Monthly"
       ? selectedData.plan.price
@@ -276,6 +254,8 @@ function createDataView() {
   `;
 }
 
+// Method used to calculate total price for services and selected plan price
+
 function calculateTotalPrice() {
   const planDuration = selectedData.plan.planDuration;
   const planPrice = Number(
@@ -291,35 +271,52 @@ function calculateTotalPrice() {
   return servicePrice + planPrice;
 }
 
-function handleInputErrorMsg(input) {
+/**
+ * Helper method to show custom error
+ * @param {*} input the input that is not valid
+ * @param {*} msg the error msg to display
+ */
+function handleInputErrorMsg(input, msg) {
   const errorSpan = document.createElement("span");
   errorSpan.classList.add("invalid-input-feedback");
-  errorSpan.innerText = `${input.name} is required`;
+  errorSpan.innerText = `${msg}`;
   input?.classList.add("invalid-input");
   if (!input.nextElementSibling)
     input?.insertAdjacentElement("afterend", errorSpan);
 }
 
+/**
+ * Method to check input value
+ * @param {*} ev input event
+ */
+
 function checkInputValue(ev) {
-  if (ev.currentTarget.value === "") {
-    ev.currentTarget.classList.add("invalid-input");
-    handleInputErrorMsg(ev.currentTarget);
-  } else {
+  const inputPattern = RegExp(ev.currentTarget.getAttribute("pattern"));
+  if (inputPattern.test(ev.currentTarget.value)) {
+    validField = true;
     ev.currentTarget.classList?.remove("invalid-input");
     ev.currentTarget.nextElementSibling?.remove();
+  } else {
+    validField = false;
+    ev.currentTarget.classList.add("invalid-input");
+    handleInputErrorMsg(
+      ev.currentTarget,
+      `Invalid format for ${ev.currentTarget.name} field`
+    );
   }
 }
 
+/**
+ * Method to validate form fields
+ * @param {*} submitted boolean parameter to simulate form submitting
+ */
 function inputListener(submitted) {
   inputs.forEach((input) => {
     if (submitted) {
-      if (input.value === "") handleInputErrorMsg(input);
+      if (input.value === "")
+        handleInputErrorMsg(input, `${input.name} is required`);
     }
     input.addEventListener("focusout", (ev) => {
-      checkInputValue(ev);
-    });
-
-    input.addEventListener("input", (ev) => {
       checkInputValue(ev);
     });
   });
