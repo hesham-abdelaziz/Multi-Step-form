@@ -8,7 +8,7 @@ let selectedData = {
   },
   services: [],
 };
-
+const container = document.querySelector(".container");
 const steps = document.querySelectorAll(".step-order");
 const stepCircle = document.querySelector(".step-circle");
 const stepsArray = Array.from(steps);
@@ -17,14 +17,17 @@ const planCards = document.querySelectorAll(".card");
 const addonCards = document.querySelectorAll(".add-on");
 const changePlanBtn = document.querySelector(".change-btn");
 const inputs = document.querySelectorAll("input");
-
+const mobileBtns = document.querySelector(".mobile-btns");
+const mobileGoBackBtn = document.querySelector(".mobile-btns .prev-button");
+const mobileGoNextBtn = document.querySelector(".mobile-btns .next-button");
+const isMatched = window.matchMedia("(max-width: 768px)").matches;
 // Steps containers
-
 const stepOneContainer = document.querySelector(".step-one-container");
 const stepTwoContainer = document.querySelector(".step-two-container");
 const stepThreeContainer = document.querySelector(".step-three-container");
 const stepFourContainer = document.querySelector(".step-four-container");
 const confirmContainer = document.querySelector(".finish-step");
+
 // Event Listeners
 
 planToggler.addEventListener("click", (ev) => {
@@ -63,10 +66,11 @@ planCards.forEach((card) => {
 });
 
 changePlanBtn.addEventListener("click", () => {
+  activeIndex = 2;
+  stepTwoContainer.classList.add("active");
   stepTwoContainer.classList.remove("completed");
   stepThreeContainer.classList.remove("completed");
-  stepThreeContainer.style.top = 150 + "%";
-  stepFourContainer.style.top = 150 + "%";
+  stepFourContainer.classList.remove("active");
   stepHandler(1);
 });
 
@@ -80,15 +84,20 @@ changePlanBtn.addEventListener("click", () => {
 let prevIndex = -1; // to store previous index
 
 function stepHandler(index) {
+  console.log(index);
   stepsArray.forEach((step, i) => {
     step.classList.remove("active-bottom-to-top", "active-top-to-bottom");
-
+    step.classList.remove("active-right-to-left", "active-left-to-right");
     if (index === i) {
       if (i > prevIndex) {
         step.classList.add("active-bottom-to-top");
       } else if (i < prevIndex) {
         step.classList.add("active-top-to-bottom");
       }
+    }
+    if (isMatched) {
+      step.classList.replace("active-bottom-to-top", "active-left-to-right");
+      step.classList.replace("active-top-to-bottom", "active-right-to-left");
     }
   });
 
@@ -98,19 +107,22 @@ function stepHandler(index) {
 
 function handleStepBack(previousStep) {
   switch (previousStep) {
-    case "one":
+    case 1:
       stepOneContainer.classList.remove("completed");
-      stepTwoContainer.style.top = 150 + "%";
+      stepOneContainer.classList.add("active");
+      stepTwoContainer.classList.remove("active");
       stepHandler(0);
       break;
-    case "two":
+    case 2:
       stepTwoContainer.classList.remove("completed");
-      stepThreeContainer.style.top = 150 + "%";
+      stepTwoContainer.classList.add("active");
+      stepThreeContainer.classList.remove("active");
       stepHandler(1);
       break;
-    case "three":
+    case 3:
       stepThreeContainer.classList.remove("completed");
-      stepFourContainer.style.top = 150 + "%";
+      stepThreeContainer.classList.add("active");
+      stepFourContainer.classList.remove("active");
       stepHandler(2);
       break;
 
@@ -121,23 +133,29 @@ function handleStepBack(previousStep) {
 
 function handleStepForward(nextStep) {
   switch (nextStep) {
-    case "two":
+    case 2:
       validateForm();
       break;
-    case "three":
+    case 3:
       stepTwoContainer.classList.add("completed");
-      stepThreeContainer.style.top = 0;
+      stepTwoContainer.classList.remove("active");
+      stepThreeContainer.classList.add("active");
+
       stepHandler(2);
       break;
-    case "four":
+    case 4:
       stepThreeContainer.classList.add("completed");
-      stepFourContainer.style.top = 0;
+      stepThreeContainer.classList.remove("active");
+      stepFourContainer.classList.add("active");
+
       stepHandler(3);
       createDataView();
       break;
     case "confirm":
       stepFourContainer.classList.add("completed");
-      confirmContainer.style.top = 0;
+      stepFourContainer.classList.remove("active");
+      confirmContainer.classList.add("active");
+      mobileBtns?.remove();
       break;
     default:
       break;
@@ -152,7 +170,8 @@ function validateForm() {
     return;
   } else {
     stepOneContainer.classList.add("completed");
-    stepTwoContainer.style.top = 0;
+    stepOneContainer.classList.remove("active");
+    stepTwoContainer.classList.add("active");
     stepHandler(1);
   }
 }
@@ -315,11 +334,72 @@ function inputListener(submitted) {
     if (submitted) {
       if (input.value === "")
         handleInputErrorMsg(input, `${input.name} is required`);
+      checkInputValue(input);
     }
     input.addEventListener("focusout", (ev) => {
       checkInputValue(ev);
     });
   });
+}
+
+window.addEventListener("load", () => {
+  document.querySelectorAll(".active-top-to-bottom").forEach((element) => {
+    element.classList.replace("active-top-to-bottom", "active-right-to-left");
+  });
+  isMediaMatched(window.innerWidth >= 768, mobileBtns, container);
+  showPrevBtn();
+});
+
+window.addEventListener("resize", () => {
+  isMediaMatched(window.innerWidth >= 768, mobileBtns, container);
+});
+
+/**
+ * Method to append or remove element based on media screen
+ * @param value parameter to detect is media matched or not
+ * @param child the element to remove or append
+ * @param container the parent element that contains the element
+ */
+function isMediaMatched(isMatched, child, container) {
+  if (isMatched) {
+    child.remove();
+  } else {
+    container.append(child);
+  }
+}
+function showPrevBtn() {
+  if (
+    stepsArray[0].classList.contains("active-right-to-left") ||
+    stepsArray[0].classList.contains("active-left-to-right")
+  ) {
+    mobileGoBackBtn.remove();
+    mobileBtns.querySelector(".btn-container").style.justifyContent =
+      "flex-end";
+  } else {
+    mobileBtns
+      .querySelector(".btn-container")
+      .insertAdjacentElement("afterbegin", mobileGoBackBtn);
+    mobileBtns.querySelector(".btn-container").style.justifyContent =
+      "space-between";
+  }
+}
+
+let activeIndex = 1;
+function handleMobileNavigation(stepBehavior) {
+  switch (stepBehavior) {
+    case "next":
+      if (activeIndex == 4) activeIndex = "confirm";
+      else activeIndex++;
+      handleStepForward(activeIndex);
+      break;
+    case "prev":
+      if (activeIndex === 0) return;
+      else activeIndex--;
+      handleStepBack(activeIndex);
+
+      break;
+  }
+  showPrevBtn();
 }
 
 inputListener(false);

@@ -61,7 +61,7 @@
 
       <!-- Step one start -->
 
-      <div class="step-one-container">
+      <div class="step-one-container active">
         <form name="step-one-form" class="step-one-form">
           <h4 class="step-header">Personal info</h4>
           <span class="step-desc font-gray"
@@ -104,15 +104,16 @@
               required
             />
           </div>
-
+        </form>
+        <div class="btn-container">
           <button
             type="button"
             class="next-button step-one-btn"
-            onclick="handleStepForward('two')"
+            onclick="handleStepForward(2)"
           >
             Next Step
           </button>
-        </form>
+        </div>
       </div>
 
       <!-- Step one end -->
@@ -168,13 +169,13 @@
         </div>
 
         <div class="btn-container">
-          <span class="font-gray prev-button" onclick="handleStepBack('one')"
+          <span class="font-gray prev-button" onclick="handleStepBack(1)"
             >Go Back</span
           >
           <button
             type="button"
             class="next-button step-two-btn"
-            onclick="handleStepForward('three')"
+            onclick="handleStepForward(3)"
           >
             Next Step
           </button>
@@ -235,13 +236,13 @@
         </div>
 
         <div class="btn-container">
-          <span class="font-gray prev-button" onclick="handleStepBack('two')"
+          <span class="font-gray prev-button" onclick="handleStepBack(2)"
             >Go Back</span
           >
           <button
             type="button"
             class="next-button step-two-btn"
-            onclick="handleStepForward('four')"
+            onclick="handleStepForward(4)"
           >
             Next Step
           </button>
@@ -269,7 +270,7 @@
         </div>
         <div class="total"></div>
         <div class="btn-container">
-          <span class="font-gray prev-button" onclick="handleStepBack('three')"
+          <span class="font-gray prev-button" onclick="handleStepBack(3)"
             >Go Back</span
           >
           <button
@@ -297,6 +298,23 @@
       </div>
 
       <!-- Finish end -->
+
+      <div class="mobile-btns">
+        <div class="btn-container">
+          <span
+            class="font-gray prev-button"
+            onclick="handleMobileNavigation('prev')"
+            >Go Back</span
+          >
+          <button
+            type="button"
+            class="next-button step-one-btn"
+            onclick="handleMobileNavigation('next')"
+          >
+            Next Step
+          </button>
+        </div>
+      </div>
     </div>
   </body>
 </html>

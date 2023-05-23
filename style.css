@@ -51,6 +51,7 @@ button {
 .step-header {
   font-size: 32px;
   margin-bottom: 8px;
+  color: var(--marine-blue) !important;
 }
 
 .completed {
@@ -59,6 +60,9 @@ button {
   order: 2 !important;
 }
 
+.active {
+  top: 0 !important;
+}
 .prev-button {
   cursor: pointer;
   font-weight: 500;
@@ -87,6 +91,10 @@ button {
   > button {
     margin: 0 !important;
   }
+}
+
+.mobile-btns {
+  display: none;
 }
 /* Start Styles */
 
@@ -142,11 +150,15 @@ button {
             background-color: var(--bg-active);
             top: -100%;
             bottom: -100%;
+            right: -100%;
+            left: -100%;
             transition: 0.5s cubic-bezier(0.47, 0.13, 0.15, 0.89);
           }
 
           &.active-bottom-to-top,
-          &.active-top-to-bottom {
+          &.active-top-to-bottom,
+          &.active-right-to-left,
+          &.active-left-to-right {
             border: none;
             > span {
               color: #222;
@@ -155,11 +167,28 @@ button {
           &.active-bottom-to-top::after {
             top: 0;
             bottom: unset;
+            right: unset;
+            left: unset;
           }
 
           &.active-top-to-bottom::after {
             bottom: 0;
             top: unset;
+            right: unset;
+            left: unset;
+          }
+
+          &.active-right-to-left::after {
+            top: unset;
+            bottom: unset;
+            left: unset;
+            right: 0;
+          }
+          &.active-left-to-right::after {
+            top: unset;
+            bottom: unset;
+            right: unset;
+            left: 0;
           }
         }
         > div.step-info {
@@ -200,6 +229,7 @@ button {
       > h4 {
         font-size: 32px;
         margin-bottom: 8px;
+        color: var(--marine-blue);
       }
       > span.step-desc {
         display: block;
@@ -216,7 +246,7 @@ button {
         > input {
           padding: 12px 15px;
           margin-top: 8px;
-          border-radius: 8px;
+          border-radius: 3px;
           border: 1px solid hsl(229, 24%, 87%);
           font-size: 16px;
           outline: none;
@@ -233,6 +263,10 @@ button {
         }
       }
     }
+    > .btn-container {
+      margin: 0;
+      justify-content: flex-end !important;
+    }
   }
 
   > div.step-two-container {
@@ -244,6 +278,13 @@ button {
     left: 420px;
     opacity: 1;
     transition: 0.7s cubic-bezier(0.47, 0.13, 0.15, 0.89);
+
+    .step-header {
+      color: var(--marine-blue);
+    }
+    .step-desc {
+      font-size: 18px;
+    }
   }
 
   > div.step-three-container {
@@ -465,8 +506,10 @@ button {
       border: 1px solid var(--marine-blue);
     }
     > div.desc {
-      > p.name {
+      > .name {
         color: var(--marine-blue);
+        font-weight: 500;
+        margin-bottom: 5px;
       }
     }
   }
@@ -513,6 +556,151 @@ button {
     &.toggled {
       &::after {
         left: 22px;
+      }
+    }
+  }
+}
+@media only screen and (max-width: 768px) {
+  .container {
+    position: relative;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border-radius: unset;
+    background-color: var(--bg-color);
+    box-shadow: none;
+    > div.sidebar {
+      width: 100%;
+      height: 150px;
+      border-radius: 0;
+      background-position: 0 85%;
+      > div.steps {
+        display: flex;
+        justify-content: center;
+        margin-top: 25px;
+        padding: 0;
+        > div.step {
+          margin: 0 8px;
+          > div.step-info {
+            display: none;
+          }
+        }
+      }
+    }
+    > div.step-one-container,
+    > div.step-two-container,
+    > div.step-three-container,
+    > div.step-four-container,
+    > div.finish-step {
+      box-shadow: 0px 7px 14px rgba(0, 0, 0, 0.1);
+      position: absolute;
+      top: 35%;
+      left: 150%;
+      background-color: #fff;
+      width: 90%;
+      padding: 18px 20px;
+      border-radius: 8px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translate(-50%, -50%);
+
+      > div.btn-container {
+        display: none;
+      }
+      &.active {
+        opacity: 1 !important;
+        visibility: visible;
+      }
+      &.completed {
+        opacity: 0;
+        visibility: hidden;
+        left: -100% !important;
+      }
+    }
+    > div.step-one-container {
+      > form {
+        position: unset;
+        padding: 0;
+        > span.step-desc {
+          font-size: 18px;
+        }
+      }
+      &.active {
+        top: 35.9% !important;
+        left: 50% !important;
+      }
+      &.completed {
+        top: 35% !important;
+      }
+    }
+    > div.step-two-container {
+      padding: 40px 25px !important;
+      top: 42% !important;
+      &.active {
+        left: 50% !important;
+      }
+      .cards {
+        flex-direction: column !important;
+        .card {
+          width: 100%;
+          height: 0;
+          padding: 40px 15px;
+          flex-direction: row;
+          align-items: center;
+          justify-content: start;
+          gap: 16px;
+        }
+      }
+    }
+    > div.step-three-container {
+      padding: 30px 40px !important;
+      top: 36.3% !important;
+      &.active {
+        left: 50% !important;
+      }
+      .add-ons {
+        margin: 20px 0 0 0 !important;
+      }
+    }
+    > div.step-four-container {
+      padding: 30px 40px !important;
+      top: 37.6% !important;
+      &.active {
+        left: 50% !important;
+      }
+      .add-ons {
+        margin: 20px 0 0 0 !important;
+      }
+    }
+    > div.finish-step {
+      padding: 30px 40px !important;
+      top: 37.6% !important;
+      height: 50%;
+
+      &.active {
+        left: 50% !important;
+      }
+      .add-ons {
+        margin: 20px 0 0 0 !important;
+      }
+    }
+  }
+
+  .step-desc {
+    font-size: 18px;
+  }
+  .mobile-btns {
+    display: block;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #fff;
+    padding: 16px;
+    .btn-container {
+      margin: 0;
+      > button {
+        border-radius: 3px;
       }
     }
   }
